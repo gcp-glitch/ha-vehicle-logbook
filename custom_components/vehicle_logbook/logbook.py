@@ -35,6 +35,17 @@ from .const import (
 
 KM_RATE_WINDOW_DAYS = 90
 MAX_SANE_LITRES = 200
+HISTORY_MAX = 200
+MONTHS_MAX = 24
+COST_GROUPS = {
+    "fillups": "fuel",
+    "services": "maintenance",
+    "oil_changes": "maintenance",
+    "tyres": "maintenance",
+    "parts": "maintenance",
+    "documents": "other",
+    "expenses": "other",
+}
 KM_RATE_MIN_SPAN_DAYS = 7
 ODOMETER_LOG_MAX = 400
 
@@ -182,6 +193,7 @@ class FuelStats:
     fillup_count: int = 0
     suspect_count: int = 0
     history: list[dict[str, Any]] = field(default_factory=list)
+    price_history: list[dict[str, Any]] = field(default_factory=list)
 
 
 def fuel_stats(fillups: list[dict[str, Any]]) -> FuelStats:
@@ -239,7 +251,12 @@ def fuel_stats(fillups: list[dict[str, Any]]) -> FuelStats:
         if distance > 0:
             stats.distance = distance
             stats.cost_per_km = round(cost / distance, 3)
-    stats.history = stats.history[-20:]
+    stats.history = stats.history[-HISTORY_MAX:]
+    stats.price_history = [
+        {"date": f.get("date"), "price_per_litre": _num(f.get("price_per_litre"))}
+        for f in sorted(fillups, key=_sort_key)
+        if not f.get("suspect") and _num(f.get("price_per_litre"))
+    ][-HISTORY_MAX:]
     return stats
 
 
@@ -279,6 +296,74 @@ def cost_summary(data: dict[str, Any], today: date) -> dict[str, Any]:
         "fuel_month": round(fuel_month, 2),
         "year_by_category": by_category,
     }
+
+
+def _month(day: str | None) -> str | None:
+    return day[:7] if day and len(day) >= 7 else None
+
+
+def _month_range(first: str, last: str) -> list[str]:
+    year, month = int(first[:4]), int(first[5:7])
+    months = []
+    while f"{year:04d}-{month:02d}" <= last:
+        months.append(f"{year:04d}-{month:02d}")
+        month += 1
+        if month > 12:
+            year, month = year + 1, 1
+    return months
+
+
+def monthly_costs(data: dict[str, Any]) -> list[dict[str, Any]]:
+    """Spend per calendar month (fuel / maintenance / other), oldest first, gaps as zero."""
+    months: dict[str, dict[str, float]] = {}
+    for name in RECORD_LISTS:
+        for rec in data.get(name, []):
+            cost = record_cost(name, rec)
+            month = _month(rec.get("date"))
+            if not cost or month is None or (name == "fillups" and rec.get("suspect")):
+                continue
+            bucket = months.setdefault(month, {"fuel": 0.0, "maintenance": 0.0, "other": 0.0})
+            bucket[COST_GROUPS[name]] += cost
+    if not months:
+        return []
+    rows = []
+    for month in _month_range(min(months), max(months)):
+        bucket = months.get(month, {"fuel": 0.0, "maintenance": 0.0, "other": 0.0})
+        rows.append(
+            {"month": month, **{k: round(v, 2) for k, v in bucket.items()},
+             "total": round(sum(bucket.values()), 2)}
+        )
+    return rows[-MONTHS_MAX:]
+
+
+def monthly_km(data: dict[str, Any]) -> list[dict[str, Any]]:
+    """Distance per calendar month, spreading each gap between readings evenly over its days."""
+    best: dict[date, float] = {}
+    points = [(r.get("date"), _num(r.get("km"))) for r in data.get("odometer_log", [])]
+    for name in RECORD_LISTS:
+        points.extend((r.get("date"), _num(r.get("odometer"))) for r in data.get(name, []))
+    for day, km in points:
+        when = parse_date(day)
+        if when is None or km is None:
+            continue
+        best[when] = max(best.get(when, 0.0), km)
+    ordered = sorted(best.items())
+    per_month: dict[str, float] = {}
+    for (d1, k1), (d2, k2) in zip(ordered, ordered[1:], strict=False):
+        days = (d2 - d1).days
+        if days <= 0 or k2 <= k1:
+            continue
+        per_day = (k2 - k1) / days
+        for offset in range(1, days + 1):
+            key = (d1 + timedelta(days=offset)).strftime("%Y-%m")
+            per_month[key] = per_month.get(key, 0.0) + per_day
+    if not per_month:
+        return []
+    rows = [
+        {"month": m, "km": round(per_month.get(m, 0.0), 0)}
+        for m in _month_range(min(per_month), max(per_month))
+    ]
+    return rows[-MONTHS_MAX:]
 
 
 def running_cost_per_km(data: dict[str, Any], odometer: float | None) -> float | None:
@@ -540,6 +625,8 @@ def summarize(
             i for i in items if i.status in (STATUS_DUE_SOON, STATUS_OVERDUE)
         ],
         "counts": {name: len(data.get(name, [])) for name in RECORD_LISTS},
+        "monthly_costs": monthly_costs(data),
+        "monthly_km": monthly_km(data),
     }
 
 

@@ -108,3 +108,19 @@ def test_km_per_day_and_estimate() -> None:
     items = {i.key: i for i in logbook.due_items(data, dict(DEFAULT_OPTIONS), 11000, TODAY)}
     # 14 000 km to go at ~33 km/day -> ~420 days, but the 12-month date is sooner
     assert items["service"].effective_date == date(2027, 3, 10)
+
+
+def test_monthly_costs_and_km(fuelio_csv: str) -> None:
+    data = logbook.empty_data()
+    logbook.merge_import(data, logbook.parse_fuelio_csv(fuelio_csv))
+    months = {m["month"]: m for m in logbook.monthly_costs(data)}
+    assert months["2026-02"]["fuel"] == 1200.0  # suspect 0-cost fill-up ignored
+    assert months["2026-02"]["maintenance"] == 3500.0
+    assert months["2026-02"]["other"] == 65.0
+    assert months["2026-03"]["total"] == 1400.0
+    km = {m["month"]: m["km"] for m in logbook.monthly_km(data)}
+    # 9400 km (15 Jan) -> 11000 km (1 Mar) spread evenly over the days in between
+    assert set(km) == {"2026-01", "2026-02", "2026-03"}
+    assert sum(km.values()) == 1600.0
+    stats = logbook.fuel_stats(data["fillups"])
+    assert [p["price_per_litre"] for p in stats.price_history] == [20.0, 20.0, 20.0]

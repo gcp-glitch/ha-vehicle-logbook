@@ -86,7 +86,7 @@ SENSORS: tuple[LogbookSensorDescription, ...] = (
         state_class=SensorStateClass.TOTAL_INCREASING,
         suggested_display_precision=0,
         value_fn=lambda s: s.get("odometer"),
-        attrs_fn=lambda s: {"km_per_day": s.get("km_per_day")},
+        attrs_fn=lambda s: {"km_per_day": s.get("km_per_day"), "monthly_km": s.get("monthly_km", [])},
     ),
     LogbookSensorDescription(
         key="fuel_consumption",
@@ -117,7 +117,10 @@ SENSORS: tuple[LogbookSensorDescription, ...] = (
         money_suffix="/L",
         suggested_display_precision=2,
         value_fn=_fuel("last_price_per_litre"),
-        attrs_fn=lambda s: {"last_fillup_date": s["fuel"].last_fillup_date},
+        attrs_fn=lambda s: {
+            "last_fillup_date": s["fuel"].last_fillup_date,
+            "price_history": s["fuel"].price_history,
+        },
     ),
     LogbookSensorDescription(
         key="fuel_cost_per_km",
@@ -158,7 +161,10 @@ SENSORS: tuple[LogbookSensorDescription, ...] = (
         money=True,
         suggested_display_precision=0,
         value_fn=lambda s: s["costs"]["year"],
-        attrs_fn=lambda s: {"by_category": s["costs"]["year_by_category"]},
+        attrs_fn=lambda s: {
+            "by_category": s["costs"]["year_by_category"],
+            "monthly": s.get("monthly_costs", []),
+        },
     ),
     LogbookSensorDescription(
         key="total_cost",
@@ -226,6 +232,11 @@ async def async_setup_entry(
 
 class LogbookSensor(VehicleLogbookEntity, SensorEntity):
     """A logbook sensor."""
+
+    # Chart data lives in attributes; keep it out of the recorder database.
+    _unrecorded_attributes = frozenset(
+        {"history", "price_history", "monthly", "monthly_km", "upcoming", "not_tracked_yet"}
+    )
 
     entity_description: LogbookSensorDescription
 

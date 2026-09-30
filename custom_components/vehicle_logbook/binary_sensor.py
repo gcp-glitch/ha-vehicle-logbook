@@ -30,6 +30,7 @@ class AttentionBinarySensor(VehicleLogbookEntity, BinarySensorEntity):
 
     _attr_device_class = BinarySensorDeviceClass.PROBLEM
     _attr_translation_key = "needs_attention"
+    _unrecorded_attributes = frozenset({"items"})
 
     def __init__(self, vehicle: VehicleLogbook) -> None:
         """Initialise."""
