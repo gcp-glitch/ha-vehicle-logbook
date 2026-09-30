@@ -23,6 +23,8 @@ jobs:
       - uses: hacs/action@main
         with:
           category: integration
+          # Description/topics are only required for the HACS default store listing.
+          ignore: description topics
 
   tests:
     runs-on: ubuntu-latest

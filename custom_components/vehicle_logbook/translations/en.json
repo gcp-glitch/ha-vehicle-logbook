@@ -657,7 +657,7 @@
         },
         "changes": {
           "name": "Changes",
-          "description": "Fields to change, e.g. {\"litres\": 92.5, \"total_cost\": 2950}."
+          "description": "Fields to change, for example litres: 92.5 and total_cost: 2950."
         }
       }
     },
