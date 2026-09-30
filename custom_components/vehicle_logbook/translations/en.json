@@ -1,0 +1,744 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add a vehicle",
+        "description": "Vehicle details. Everything except the name is optional.",
+        "data": {
+          "name": "Name",
+          "make": "Make",
+          "model": "Model",
+          "year": "Year",
+          "registration": "Registration",
+          "fuel_type": "Fuel type",
+          "tank_capacity": "Tank capacity",
+          "initial_odometer": "Current odometer"
+        },
+        "data_description": {
+          "name": "e.g. Ford Ranger Wildtrak",
+          "registration": "Used to stop the same vehicle being added twice.",
+          "initial_odometer": "Only needed if there is no odometer sensor."
+        }
+      },
+      "maintenance": {
+        "title": "Odometer and maintenance intervals",
+        "description": "Use your owner's manual or service book. You can change these later.",
+        "data": {
+          "odometer_entity": "Odometer sensor",
+          "service_interval_km": "Service every (km)",
+          "service_interval_months": "Service every (months)",
+          "oil_interval_km": "Oil change every (km)",
+          "oil_interval_months": "Oil change every (months)",
+          "tyre_rotation_km": "Rotate tyres every (km)",
+          "tyre_max_km": "Replace tyres after (km)",
+          "tyre_max_age_years": "Replace tyres after (years)",
+          "due_soon_km": "Warn this many km before",
+          "due_soon_days": "Warn this many days before"
+        },
+        "data_description": {
+          "odometer_entity": "Optional. A sensor with the car's odometer (e.g. FordPass) so readings update automatically."
+        }
+      }
+    },
+    "error": {
+      "name_required": "Please give the vehicle a name."
+    },
+    "abort": {
+      "already_configured": "This vehicle (registration) is already added."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Odometer and maintenance intervals",
+        "data": {
+          "odometer_entity": "Odometer sensor",
+          "service_interval_km": "Service every (km)",
+          "service_interval_months": "Service every (months)",
+          "oil_interval_km": "Oil change every (km)",
+          "oil_interval_months": "Oil change every (months)",
+          "tyre_rotation_km": "Rotate tyres every (km)",
+          "tyre_max_km": "Replace tyres after (km)",
+          "tyre_max_age_years": "Replace tyres after (years)",
+          "due_soon_km": "Warn this many km before",
+          "due_soon_days": "Warn this many days before"
+        },
+        "data_description": {
+          "odometer_entity": "Optional. A sensor with the car's odometer (e.g. FordPass) so readings update automatically."
+        }
+      }
+    }
+  },
+  "selector": {
+    "fuel_type": {
+      "options": {
+        "petrol": "Petrol",
+        "diesel": "Diesel",
+        "hybrid": "Hybrid",
+        "lpg": "LPG"
+      }
+    },
+    "service_type": {
+      "options": {
+        "minor": "Minor",
+        "major": "Major",
+        "other": "Other"
+      }
+    },
+    "tyre_action": {
+      "options": {
+        "new_set": "New tyres",
+        "rotation": "Rotation",
+        "repair": "Repair / puncture",
+        "tread_check": "Tread check"
+      }
+    },
+    "part": {
+      "options": {
+        "battery": "Battery",
+        "brake_pads": "Brake pads",
+        "brake_discs": "Brake discs",
+        "brake_fluid": "Brake fluid",
+        "wiper_blades": "Wiper blades",
+        "air_filter": "Air filter",
+        "cabin_filter": "Cabin filter",
+        "fuel_filter": "Fuel filter",
+        "coolant": "Coolant",
+        "spark_plugs": "Spark plugs",
+        "timing_belt": "Timing belt/chain",
+        "shock_absorbers": "Shock absorbers",
+        "clutch": "Clutch",
+        "other": "Other"
+      }
+    },
+    "document": {
+      "options": {
+        "licence_disc": "Licence disc",
+        "insurance": "Insurance",
+        "roadworthy": "Roadworthy certificate",
+        "warranty": "Warranty",
+        "service_plan": "Service plan",
+        "tracker": "Tracker subscription"
+      }
+    },
+    "expense_category": {
+      "options": {
+        "insurance": "Insurance",
+        "licence": "Licence",
+        "finance": "Finance",
+        "tolls": "Tolls",
+        "parking": "Parking",
+        "wash": "Wash",
+        "repair": "Repair",
+        "accessories": "Accessories",
+        "fine": "Fine",
+        "other": "Other"
+      }
+    },
+    "record_type": {
+      "options": {
+        "all": "All",
+        "fillups": "Fill-ups",
+        "services": "Services",
+        "oil_changes": "Oil changes",
+        "tyres": "Tyres",
+        "parts": "Parts",
+        "documents": "Documents",
+        "expenses": "Expenses"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Odometer"
+      },
+      "fuel_consumption": {
+        "name": "Fuel consumption"
+      },
+      "last_fuel_consumption": {
+        "name": "Last fuel consumption"
+      },
+      "last_fuel_price": {
+        "name": "Last fuel price"
+      },
+      "fuel_cost_per_km": {
+        "name": "Fuel cost per km"
+      },
+      "running_cost_per_km": {
+        "name": "Running cost per km"
+      },
+      "fuel_spend_this_month": {
+        "name": "Fuel spend this month"
+      },
+      "cost_this_month": {
+        "name": "Cost this month"
+      },
+      "cost_this_year": {
+        "name": "Cost this year"
+      },
+      "total_cost": {
+        "name": "Total cost"
+      },
+      "next_due": {
+        "name": "Next due",
+        "state": {
+          "service": "Service",
+          "oil_change": "Oil change",
+          "tyre_rotation": "Tyre rotation",
+          "tyres": "Tyres",
+          "battery": "Battery",
+          "brake_pads": "Brake pads",
+          "brake_discs": "Brake discs",
+          "brake_fluid": "Brake fluid",
+          "wiper_blades": "Wiper blades",
+          "air_filter": "Air filter",
+          "cabin_filter": "Cabin filter",
+          "fuel_filter": "Fuel filter",
+          "coolant": "Coolant",
+          "spark_plugs": "Spark plugs",
+          "timing_belt": "Timing belt/chain",
+          "shock_absorbers": "Shock absorbers",
+          "clutch": "Clutch",
+          "other": "Other",
+          "licence_disc": "Licence disc",
+          "insurance": "Insurance",
+          "roadworthy": "Roadworthy certificate",
+          "warranty": "Warranty",
+          "service_plan": "Service plan",
+          "tracker": "Tracker subscription",
+          "nothing": "Nothing tracked yet"
+        }
+      },
+      "service_due_in": {
+        "name": "Service due in"
+      },
+      "service_due_date": {
+        "name": "Service due date"
+      },
+      "service_status": {
+        "name": "Service",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "oil_change_status": {
+        "name": "Oil change",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "tyre_rotation_status": {
+        "name": "Tyre rotation",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "tyres_status": {
+        "name": "Tyres",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "battery_status": {
+        "name": "Battery",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "brake_pads_status": {
+        "name": "Brake pads",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "brake_fluid_status": {
+        "name": "Brake fluid",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "wiper_blades_status": {
+        "name": "Wiper blades",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "air_filter_status": {
+        "name": "Air filter",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "cabin_filter_status": {
+        "name": "Cabin filter",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "licence_disc_status": {
+        "name": "Licence disc",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "insurance_status": {
+        "name": "Insurance",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "service_plan_status": {
+        "name": "Service plan",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      },
+      "warranty_status": {
+        "name": "Warranty",
+        "state": {
+          "ok": "OK",
+          "due_soon": "Due soon",
+          "overdue": "Overdue",
+          "unknown": "Not tracked yet"
+        }
+      }
+    },
+    "binary_sensor": {
+      "needs_attention": {
+        "name": "Needs attention"
+      }
+    },
+    "calendar": {
+      "vehicle_care": {
+        "name": "Vehicle care"
+      }
+    }
+  },
+  "services": {
+    "log_fillup": {
+      "name": "Log fill-up",
+      "description": "Log a fuel fill-up. Give the total cost or the price per litre.",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "date": {
+          "name": "Date",
+          "description": "Defaults to today."
+        },
+        "odometer": {
+          "name": "Odometer",
+          "description": "Odometer in km. Defaults to the current reading (linked sensor or last logged)."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Anything worth remembering."
+        },
+        "litres": {
+          "name": "Litres",
+          "description": "Litres filled."
+        },
+        "total_cost": {
+          "name": "Total cost",
+          "description": "Amount paid."
+        },
+        "price_per_litre": {
+          "name": "Price per litre",
+          "description": "Price per litre."
+        },
+        "full_tank": {
+          "name": "Full tank",
+          "description": "Tank filled to the top (needed for consumption)."
+        },
+        "missed_previous": {
+          "name": "Missed previous fill-up",
+          "description": "Tick if an earlier fill-up was not logged."
+        },
+        "station": {
+          "name": "Station",
+          "description": "Fuel station."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Log service",
+      "description": "Log a workshop service. Next service due is calculated from your intervals unless the workshop gave you one.",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "date": {
+          "name": "Date",
+          "description": "Defaults to today."
+        },
+        "odometer": {
+          "name": "Odometer",
+          "description": "Odometer in km. Defaults to the current reading (linked sensor or last logged)."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Anything worth remembering."
+        },
+        "cost": {
+          "name": "Cost",
+          "description": "Invoice total."
+        },
+        "service_type": {
+          "name": "Service type",
+          "description": "Minor, major or other."
+        },
+        "workshop": {
+          "name": "Workshop",
+          "description": "Dealer or workshop."
+        },
+        "includes_oil_change": {
+          "name": "Includes oil change",
+          "description": "Oil and filter were changed."
+        },
+        "next_service_km": {
+          "name": "Next service at (km)",
+          "description": "Workshop's next-service odometer, if on the sticker."
+        },
+        "next_service_date": {
+          "name": "Next service date",
+          "description": "Workshop's next-service date, if given."
+        }
+      }
+    },
+    "log_oil_change": {
+      "name": "Log oil change",
+      "description": "Log an oil change done outside a service.",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "date": {
+          "name": "Date",
+          "description": "Defaults to today."
+        },
+        "odometer": {
+          "name": "Odometer",
+          "description": "Odometer in km. Defaults to the current reading (linked sensor or last logged)."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Anything worth remembering."
+        },
+        "cost": {
+          "name": "Cost",
+          "description": "Amount paid."
+        },
+        "oil": {
+          "name": "Oil",
+          "description": "Oil type, e.g. 5W-30."
+        }
+      }
+    },
+    "log_tyres": {
+      "name": "Log tyres",
+      "description": "Log new tyres, a rotation, a repair or a tread check.",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "date": {
+          "name": "Date",
+          "description": "Defaults to today."
+        },
+        "odometer": {
+          "name": "Odometer",
+          "description": "Odometer in km. Defaults to the current reading (linked sensor or last logged)."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Anything worth remembering."
+        },
+        "action": {
+          "name": "Action",
+          "description": "What was done."
+        },
+        "cost": {
+          "name": "Cost",
+          "description": "Amount paid."
+        },
+        "brand": {
+          "name": "Brand",
+          "description": "Tyre brand and model."
+        },
+        "size": {
+          "name": "Size",
+          "description": "e.g. 265/60R18."
+        },
+        "tread_mm": {
+          "name": "Tread depth (mm)",
+          "description": "Lowest tread depth measured."
+        },
+        "dot_date": {
+          "name": "DOT date",
+          "description": "Manufacture date from the DOT code (week/year); used for tyre age."
+        }
+      }
+    },
+    "log_part": {
+      "name": "Log part replaced",
+      "description": "Log a replaced part (battery, brake pads, wipers, filters and more).",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "date": {
+          "name": "Date",
+          "description": "Defaults to today."
+        },
+        "odometer": {
+          "name": "Odometer",
+          "description": "Odometer in km. Defaults to the current reading (linked sensor or last logged)."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Anything worth remembering."
+        },
+        "part": {
+          "name": "Part",
+          "description": "Which part."
+        },
+        "cost": {
+          "name": "Cost",
+          "description": "Amount paid."
+        },
+        "interval_km": {
+          "name": "Replace every (km)",
+          "description": "Override the default replacement distance for this part."
+        },
+        "interval_months": {
+          "name": "Replace every (months)",
+          "description": "Override the default replacement time for this part."
+        }
+      }
+    },
+    "set_document": {
+      "name": "Set document expiry",
+      "description": "Record the expiry of the licence disc, insurance, roadworthy, warranty, service plan or tracker.",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "date": {
+          "name": "Date paid",
+          "description": "Defaults to today."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Anything worth remembering."
+        },
+        "document": {
+          "name": "Document",
+          "description": "Which document."
+        },
+        "expiry_date": {
+          "name": "Expiry date",
+          "description": "When it expires."
+        },
+        "cost": {
+          "name": "Cost",
+          "description": "Amount paid."
+        },
+        "reference": {
+          "name": "Reference",
+          "description": "Policy or certificate number."
+        }
+      }
+    },
+    "log_expense": {
+      "name": "Log expense",
+      "description": "Log any other vehicle cost.",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "date": {
+          "name": "Date",
+          "description": "Defaults to today."
+        },
+        "odometer": {
+          "name": "Odometer",
+          "description": "Odometer in km. Defaults to the current reading (linked sensor or last logged)."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Anything worth remembering."
+        },
+        "category": {
+          "name": "Category",
+          "description": "Type of expense."
+        },
+        "amount": {
+          "name": "Amount",
+          "description": "Amount paid."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Set odometer",
+      "description": "Record an odometer reading (for vehicles without a linked odometer sensor).",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "odometer": {
+          "name": "Odometer",
+          "description": "Odometer in km."
+        },
+        "date": {
+          "name": "Date",
+          "description": "Defaults to today."
+        }
+      }
+    },
+    "update_record": {
+      "name": "Update record",
+      "description": "Fix a logged record, e.g. a typo in litres.",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "record_id": {
+          "name": "Record ID",
+          "description": "ID from the record (see Get records)."
+        },
+        "changes": {
+          "name": "Changes",
+          "description": "Fields to change, e.g. {\"litres\": 92.5, \"total_cost\": 2950}."
+        }
+      }
+    },
+    "delete_record": {
+      "name": "Delete record",
+      "description": "Delete a logged record.",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "record_id": {
+          "name": "Record ID",
+          "description": "ID from the record (see Get records)."
+        }
+      }
+    },
+    "import_fuelio_csv": {
+      "name": "Import Fuelio CSV",
+      "description": "Import fill-ups and costs from a Fuelio CSV export. Records already imported are skipped.",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "path": {
+          "name": "File path",
+          "description": "Path relative to your config folder, e.g. fuelio/ranger.csv."
+        },
+        "csv_data": {
+          "name": "CSV content",
+          "description": "Paste the CSV text instead of giving a path."
+        }
+      }
+    },
+    "get_records": {
+      "name": "Get records",
+      "description": "Return logged records (newest first).",
+      "fields": {
+        "vehicle": {
+          "name": "Vehicle",
+          "description": "The vehicle (Vehicle Logbook entry)."
+        },
+        "record_type": {
+          "name": "Record type",
+          "description": "Which records."
+        },
+        "limit": {
+          "name": "Limit",
+          "description": "Maximum records per type."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "unknown_vehicle": {
+      "message": "Vehicle {vehicle} was not found."
+    },
+    "vehicle_not_loaded": {
+      "message": "Vehicle {vehicle} is not loaded."
+    },
+    "odometer_required": {
+      "message": "Please give the odometer reading (this vehicle has no odometer sensor)."
+    },
+    "price_required": {
+      "message": "Please give the total cost or the price per litre."
+    },
+    "record_not_found": {
+      "message": "No record with ID {record_id}."
+    },
+    "invalid_fields": {
+      "message": "These fields cannot be changed: {fields}."
+    },
+    "import_source_required": {
+      "message": "Give a file path or paste the CSV content."
+    },
+    "path_not_allowed": {
+      "message": "{path} is outside the config folder or not allowed."
+    },
+    "file_not_found": {
+      "message": "{path} was not found (or is larger than 5 MB)."
+    }
+  }
+}

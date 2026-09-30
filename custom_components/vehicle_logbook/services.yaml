@@ -1,0 +1,354 @@
+log_fillup:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    litres:
+      required: true
+      selector:
+        number:
+          min: 0.1
+          max: 1000
+          step: 0.01
+          unit_of_measurement: L
+          mode: box
+    total_cost:
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          step: 0.01
+          mode: box
+    price_per_litre:
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          step: 0.01
+          mode: box
+    odometer: &id001
+      selector: &id004
+        number:
+          min: 0
+          max: 5000000
+          step: 1
+          unit_of_measurement: km
+          mode: box
+    date: &id002
+      selector:
+        date: {}
+    full_tank:
+      default: true
+      selector:
+        boolean: {}
+    missed_previous:
+      default: false
+      selector:
+        boolean: {}
+    station:
+      selector:
+        text: {}
+    notes: &id003
+      selector:
+        text:
+          multiline: true
+log_service:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    odometer: *id001
+    date: *id002
+    cost:
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          step: 0.01
+          mode: box
+    service_type:
+      required: false
+      selector:
+        select:
+          options:
+          - minor
+          - major
+          - other
+          translation_key: service_type
+          mode: dropdown
+      default: minor
+    workshop:
+      selector:
+        text: {}
+    includes_oil_change:
+      default: true
+      selector:
+        boolean: {}
+    next_service_km: *id001
+    next_service_date: *id002
+    notes: *id003
+log_oil_change:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    odometer: *id001
+    date: *id002
+    cost:
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          step: 0.01
+          mode: box
+    oil:
+      selector:
+        text: {}
+    notes: *id003
+log_tyres:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    action:
+      required: true
+      selector:
+        select:
+          options:
+          - new_set
+          - rotation
+          - repair
+          - tread_check
+          translation_key: tyre_action
+          mode: dropdown
+    odometer: *id001
+    date: *id002
+    cost:
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          step: 0.01
+          mode: box
+    brand:
+      selector:
+        text: {}
+    size:
+      selector:
+        text: {}
+    tread_mm:
+      selector:
+        number:
+          min: 0
+          max: 30
+          step: 0.1
+          unit_of_measurement: mm
+          mode: box
+    dot_date: *id002
+    notes: *id003
+log_part:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    part:
+      required: true
+      selector:
+        select:
+          options:
+          - battery
+          - brake_pads
+          - brake_discs
+          - brake_fluid
+          - wiper_blades
+          - air_filter
+          - cabin_filter
+          - fuel_filter
+          - coolant
+          - spark_plugs
+          - timing_belt
+          - shock_absorbers
+          - clutch
+          - other
+          translation_key: part
+          mode: dropdown
+    odometer: *id001
+    date: *id002
+    cost:
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          step: 0.01
+          mode: box
+    interval_km: *id001
+    interval_months:
+      selector:
+        number:
+          min: 0
+          max: 240
+          step: 1
+          mode: box
+    notes: *id003
+set_document:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    document:
+      required: true
+      selector:
+        select:
+          options:
+          - licence_disc
+          - insurance
+          - roadworthy
+          - warranty
+          - service_plan
+          - tracker
+          translation_key: document
+          mode: dropdown
+    expiry_date:
+      required: true
+      selector:
+        date: {}
+    date: *id002
+    cost:
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          step: 0.01
+          mode: box
+    reference:
+      selector:
+        text: {}
+    notes: *id003
+log_expense:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    category:
+      required: true
+      selector:
+        select:
+          options:
+          - insurance
+          - licence
+          - finance
+          - tolls
+          - parking
+          - wash
+          - repair
+          - accessories
+          - fine
+          - other
+          translation_key: expense_category
+          mode: dropdown
+    amount:
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          step: 0.01
+          mode: box
+    odometer: *id001
+    date: *id002
+    notes: *id003
+set_odometer:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    odometer:
+      required: true
+      selector: *id004
+    date: *id002
+update_record:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    record_id:
+      required: true
+      selector:
+        text: {}
+    changes:
+      required: true
+      selector:
+        object: {}
+delete_record:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    record_id:
+      required: true
+      selector:
+        text: {}
+import_fuelio_csv:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    path:
+      selector:
+        text: {}
+    csv_data:
+      selector:
+        text:
+          multiline: true
+get_records:
+  fields:
+    vehicle:
+      required: true
+      selector:
+        config_entry:
+          integration: vehicle_logbook
+    record_type:
+      required: false
+      selector:
+        select:
+          options:
+          - all
+          - fillups
+          - services
+          - oil_changes
+          - tyres
+          - parts
+          - documents
+          - expenses
+          translation_key: record_type
+          mode: dropdown
+      default: all
+    limit:
+      default: 50
+      selector:
+        number:
+          min: 1
+          max: 5000
+          mode: box

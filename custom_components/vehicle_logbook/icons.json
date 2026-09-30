@@ -1,0 +1,195 @@
+{
+  "services": {
+    "log_fillup": {
+      "service": "mdi:gas-station"
+    },
+    "log_service": {
+      "service": "mdi:car-wrench"
+    },
+    "log_oil_change": {
+      "service": "mdi:oil"
+    },
+    "log_tyres": {
+      "service": "mdi:tire"
+    },
+    "log_part": {
+      "service": "mdi:cog-refresh"
+    },
+    "set_document": {
+      "service": "mdi:file-certificate"
+    },
+    "log_expense": {
+      "service": "mdi:cash"
+    },
+    "set_odometer": {
+      "service": "mdi:counter"
+    },
+    "update_record": {
+      "service": "mdi:pencil"
+    },
+    "delete_record": {
+      "service": "mdi:delete"
+    },
+    "import_fuelio_csv": {
+      "service": "mdi:file-import"
+    },
+    "get_records": {
+      "service": "mdi:format-list-bulleted"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "default": "mdi:counter"
+      },
+      "fuel_consumption": {
+        "default": "mdi:gas-station"
+      },
+      "last_fuel_consumption": {
+        "default": "mdi:gas-station-outline"
+      },
+      "last_fuel_price": {
+        "default": "mdi:currency-usd"
+      },
+      "fuel_cost_per_km": {
+        "default": "mdi:cash-marker"
+      },
+      "running_cost_per_km": {
+        "default": "mdi:cash-multiple"
+      },
+      "fuel_spend_this_month": {
+        "default": "mdi:gas-station"
+      },
+      "cost_this_month": {
+        "default": "mdi:cash"
+      },
+      "cost_this_year": {
+        "default": "mdi:cash"
+      },
+      "total_cost": {
+        "default": "mdi:cash"
+      },
+      "next_due": {
+        "default": "mdi:calendar-alert"
+      },
+      "service_due_in": {
+        "default": "mdi:car-wrench"
+      },
+      "service_due_date": {
+        "default": "mdi:calendar-wrench"
+      },
+      "service_status": {
+        "default": "mdi:car-wrench",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "oil_change_status": {
+        "default": "mdi:oil",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "tyre_rotation_status": {
+        "default": "mdi:tire",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "tyres_status": {
+        "default": "mdi:tire",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "battery_status": {
+        "default": "mdi:car-battery",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "brake_pads_status": {
+        "default": "mdi:car-brake-alert",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "brake_fluid_status": {
+        "default": "mdi:car-brake-fluid-level",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "wiper_blades_status": {
+        "default": "mdi:wiper",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "air_filter_status": {
+        "default": "mdi:air-filter",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "cabin_filter_status": {
+        "default": "mdi:air-filter",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "licence_disc_status": {
+        "default": "mdi:card-account-details",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "insurance_status": {
+        "default": "mdi:shield-car",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "service_plan_status": {
+        "default": "mdi:file-document-check",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      },
+      "warranty_status": {
+        "default": "mdi:certificate",
+        "state": {
+          "overdue": "mdi:alert-octagon",
+          "due_soon": "mdi:alert"
+        }
+      }
+    },
+    "binary_sensor": {
+      "needs_attention": {
+        "default": "mdi:car-wrench",
+        "state": {
+          "on": "mdi:car-wrench",
+          "off": "mdi:car-check"
+        }
+      }
+    },
+    "calendar": {
+      "vehicle_care": {
+        "default": "mdi:calendar-wrench"
+      }
+    }
+  }
+}
