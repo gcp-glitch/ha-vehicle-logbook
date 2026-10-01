@@ -23,9 +23,13 @@ Everything is stored locally in Home Assistant. Nothing is sent anywhere.
 
 ## Installation (HACS)
 
-1. In HACS, go to *⋮ → Custom repositories*, add `https://github.com/gcp-glitch/ha-vehicle-logbook` and choose the type **Integration**.
+[![Open your Home Assistant instance and open this repository inside HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=gcp-glitch&repository=ha-vehicle-logbook&category=integration)
+
+1. Click the button above, or in HACS go to *⋮ → Custom repositories*, add `https://github.com/gcp-glitch/ha-vehicle-logbook` and choose the type **Integration**.
 2. Download **Vehicle Logbook** and restart Home Assistant.
-3. Go to *Settings → Devices & services → Add integration → Vehicle Logbook*. Add one entry per vehicle.
+3. Add your first vehicle with the button below, or go to *Settings → Devices & services → Add integration → Vehicle Logbook*. Add one entry per vehicle.
+
+[![Open your Home Assistant instance and start setting up Vehicle Logbook.](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=vehicle_logbook)
 
 ## Actions
 
